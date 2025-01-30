@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Moja Przyszła Emerytura</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #002b36; /* Nowe ciemne tło */
+            color: #ffffff; /* Kolor tekstu na biały */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background-color: #f4f4f9; /* Jasny, kremowy kolor tła */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #2ecc71; /* Zielony kolor dla tytułu */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .question, .anecdote {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .answer {
+            background-color: #27ae60; /* Zielony kolor przycisków */
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: transform 0.2s ease, background-color 0.3s;
+        }
+
+        .answer:hover {
+            background-color: #2ecc71; /* Jaśniejszy zielony po najechaniu */
+            transform: scale(1.05);
+        }
+
+        .answer:active {
+            animation: pulse 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn button {
+            background-color: #2ecc71; /* Zielony kolor dla przycisków */
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s;
+        }
+
+        .btn button:hover {
+            background-color: #27ae60; /* Jaśniejszy zielony przy najechaniu */
+            transform: scale(1.1);
+        }
+
+        .btn button:active {
+            animation: pulse 0.3s ease;
+        }
+
+        .result {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        /* Dodałem odstęp między przyciskami w sekcji wyników */
+.result .btn {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Dodaj przestrzeń pomiędzy przyciskami */
+    margin-top: 30px; /* Dodatkowy margines na górze */
+}
+
+/* Kalkulator - formatowanie */
+.calculator-container .btn {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Dodaj przestrzeń pomiędzy przyciskami */
+    margin-top: 20px; /* Dodatkowy margines na górze */
+}
+
+        .intro-text {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        /* Nowy styl dla przycisku na slajdzie powitalnym */
+        #start-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Wyrównanie przycisku w poziomie */
+            justify-content: center;
+        }
+
+        #start-button {
+            margin-top: 20px;
+            background-color: #2ecc71; /* Styl taki jak dla innych przycisków */
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s;
+        }
+
+        #start-button:hover {
+            background-color: #27ae60; /* Jaśniejszy zielony przy najechaniu */
+            transform: scale(1.1);
+        }
+
+        #start-button:active {
+            animation: pulse 0.3s ease;
+        }
+
+        .selected-answer {
+    background-color: #1e6541; /* Ciemnozielony kolor dla wybranej odpowiedzi */
+    transform: scale(1.05); /* Lekko powiększymy zaznaczoną odpowiedź */
+}
+
+.additional-message {
+    font-size: 1.4rem;
+    color: #333;
+    margin-top: 20px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Kalkulator - formatowanie */
+.calculator-container {
+            background-color: #ffffff;
+            color: #333;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .calculator-container h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .calculator-container label {
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .calculator-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background-color: #f4f4f9;
+        }
+
+        .calculator-container button {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s;
+        }
+
+        .calculator-container button:hover {
+            background-color: #2ecc71;
+            transform: scale(1.1);
+        }
+
+        .calculator-container button:active {
+            animation: pulse 0.3s ease;
+        }
+
+        .calculator-container p {
+            margin-top: 20px;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+        
+        .calculator-container .btn {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Dodaj przestrzeń pomiędzy przyciskami */
+    margin-top: 20px; /* Dodatkowy margines na górze */
+}
+
+.calculator-container .btn button {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s;
+}
+
+ 
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Quiz - Moja Przyszła Emerytura</h1>
+        <div id="start-container">
+            <div class="intro-text" >
+                <p >Hej! <br>
+                Emerytura to bardzo istotny temat, który dotyczy wielu osób, a niewiele jest świadomych jak realnie będzie ona wyglądała. <br>
+                Czy wiesz, że relacja emerytur do zarobków spada i będzie coraz niższa? <br>
+                Zastanawiałeś się kiedyś jak będą wyglądał twój dochód za kilka czy kilkanaście lat? Będziesz miał więcej czy mniej pieniędzy niż teraz? Albo myślisz czy czas zacząć oszczędzać na przyszłość? <br>
+                Witamy w naszym quizie „Moja przyszła emerytura”. <br>
+                Zachęcamy cię do zabawy, której celem jest spojrzenie na Twoje decyzje finansowe, które mogą mieć duże znaczenie i odbicie w Twoim przyszłym budżecie.</p>
+            </div>
+            <button id="start-button">Rozpocznij grę</button>
+        </div>
+        <div id="quiz-content" style="display: none;">
+            <div id="question-container" class="question"></div>
+            <div id="answers-container" class="answers"></div>
+        </div>
+        <div id="anecdote-container" class="anecdote" style="display: none;">
+            <p id="anecdote-text"></p>
+            <div class="btn">
+                <button id="next-question-button">Następne pytanie</button>
+            </div>
+        </div>
+
+        <div id="calculator-container" class="calculator-container" style="display: none;">
+            <h2>Kalkulator procentu składanego</h2>
+            <p>Oblicz, ile możesz zaoszczędzić przez roczną kapitalizację miesięcznych oszczędności.</p>
+            <label for="monthly-savings">Miesięczna oszczędność (PLN):</label>
+            <input type="number" id="monthly-savings" placeholder="Wpisz miesięczną kwotę" required>
+            <br>
+            <label for="interest-rate">Roczna stopa procentowa (%):</label>
+            <input type="number" id="interest-rate" placeholder="Wpisz roczną stopę procentową" required>
+            <br>
+            <label for="years">Liczba lat:</label>
+            <input type="number" id="years" placeholder="Wpisz liczbę lat" required>
+            <br>
+            <button id="calculate-btn">Oblicz oszczędności</button>
+            <p id="calculation-result" style="margin-top: 20px; font-weight: bold;"></p>
+        
+            <!-- Nowe przyciski -->
+            <div class="btn">
+                
+                <button id="back-button">Powrót</button>
+            </div>
+        </div>
+
+         <div id="result-container" class="result" style="display: none;">
+            <p>Twoja przyszła miesięczna emerytura to: <span id="emerytura-amount"></span></p>
+            <p id="result-message"></p>
+            <p id="additional-message" class="additional-message"></p> <!-- Nowy tekst -->
+            <p id="additional-message" class="additional-message">
+            Jeśli chcesz dowiedzieć się więcej na poruszany przez nas temat starzejącego się społeczeństwa, kliknij w link i obejrzyj filmik grupy "Jagódki":
+                <a href="TU_WSTAW_LINK" target="_blank">Obejrzyj filmik</a>.
+            </p>
+            <div class="btn">
+                <button id="restart-button">Zagraj ponownie</button>
+                <button id="calculator-button">Kalkulator</button> <!-- Przycisk kalkulatora -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Masz 18 lat. Pewnie uczyłeś się w szkole jak ważne są oszczędności, ale emerytura? Jest przecież tak daleko… Jakie masz plany zawodowe?",
+                answers: [
+                    { text: "Podjąć pracę od razu i zacząć zarabiać", impact: 500 },
+                    { text: "Zdecydować się na prestiżowe studia, by zdobyć wykształcenie", impact: 300 },
+                    { text: "Połączyć studia z pracą dorywczą", impact: 400 },
+                    { text: "Podróżować po świecie, pracując dorywczo", impact: 200 },
+                    { text: "Założyć własny biznes i zacząć działać od razu", impact: 600 }
+                ],
+                anecdote: "Hej! A czy wiesz, że jest wiele przyczyn niskich emerytur? Jedna z nich to starzejące się społeczeństwo. To prowadzi do większej liczby emerytów w stosunku do pracowników. Do tego spadająca liczba urodzeń wpływa na system emerytalny, ponieważ mniej osób pracuje i płaci składki na emerytury, a wydłużający się czas życia oznacza, że emerytury będą musiały być wypłacane przez dłuższy czas."
+            },
+            {
+                question: "Masz 30 lat. Przez ostatnią dekadę stawiałeś na rozwój kariery. Czas podejmowania nie jednej trudnej i ważnej decyzji w twoim życiu, a co ze statutem zawodowym? ",
+                answers: [
+                    { text: "Pracuję na pełen etat, mam pewną posadę", impact: 700 },
+                    { text: "Jestem freelancerem, ale na stałe współpracuję z kilkoma klientami", impact: 500 },
+                    { text: "Zdecydowałem się na pracę dorywczą", impact: 300 },
+                    { text: "Czuję się niepewnie i nie mam stałego źródła dochodu", impact: 100 }
+                ],
+                anecdote: "Wymienione wcześniej przyczyny przynoszą konkretne skutki, które mogą być dla nas dotkliwe. Przede wszystkim są to  niższe świadczenia emerytalne. W przyszłości emerytury mogą być niższe, co wpłynie na standard życia wielu osób. Nie będziemy mogli pozwolić sobie na tylko konsumpcji ile potencjalnie byśmy chcieli. Wizja biedniejszego życia nie jest miła, ani przyjemna, prawda?"
+            },
+            {
+                question: "Masz 40 lat. Zbliżasz się do ważnego etapu w życiu. Twoje dzieci dorastają, masz już stabilną pracę. Pewnie coraz częściej myślisz o zbliżającej się emeryturze - czasie odpoczynku po zawodowym „biegu”. Jak postępujesz?",
+                answers: [
+                    { text: "Rozpoczynam inwestowanie w aktywa, by zapewnić przyszłość moim dzieciom i sobie", impact: 900 },
+                    { text: "Oszczędzam na emeryturę, ale nie inwestuję zbyt agresywnie", impact: 700 },
+                    { text: "Nie martwię się jeszcze o emeryturę, mam jeszcze czas", impact: 500 },
+                    { text: "Zajmuję się tylko codziennymi wydatkami i nie myślę o przyszłości", impact: 300 }
+                ],
+                anecdote: "Chcemy wyjść naprzeciw smutnej wizji emerytury! Jest wiele możliwości z których możesz korzystać już dziś, bo zapewnić sobie lepszy byt. Dlatego właśnie uważamy, że edukacja finansowa jest ogromnie istotna. Zrozumienie, jak działa system emerytalny i jakie są możliwości inwestycji, może pomóc Ci w lepszym przygotowaniu się i przyczyni do konkretnych decyzji."
+            },
+            {
+                question: "Masz 50 lat. Niewiele zostało ci pracy zawodowej. Co teraz z emeryturą? Jest w zasięgu twojego zmartwienia? Oszczędzasz na nią? Budujesz sobie pewną przyszłość?",
+                answers: [
+                    { text: "Regularnie oszczędzam na emeryturę, inwestując w fundusze", impact: 1000 },
+                    { text: "Staram się oszczędzać, ale mam obawy co do przyszłości", impact: 700 },
+                    { text: "Nie oszczędzam, bo nie mam wystarczająco dużo dochodów", impact: 400 },
+                    { text: "Nie martwię się tym jeszcze", impact: 200 }
+                ],
+                anecdote: "Jeśli się martwisz, to spokojnie, jeszcze nie wszystko stracone. Możesz pomóc przyszłemu sobie oszczędzając na przyszłość. Warto rozważyć dodatkowe formy oszczędzania na emeryturę, takie jak IKE (Indywidualne Konto Emerytalne) czy PPE (Pracownicze Plany Emerytalne)."
+            },
+            {
+                question: "Masz 60 lat. Nadszedł czas, by zacząć planować życie na emeryturze. Co robisz?",
+                answers: [
+                    { text: "Mam już wszystkie oszczędności na emeryturę, czas tylko rozplanować wydatki", impact: 1200 },
+                    { text: "Oszczędzam jeszcze, ale mam obawy co do przyszłości", impact: 800 },
+                    { text: "Nie oszczędzam, bo nie zdążyłem", impact: 400 },
+                    { text: "Nie martwię się tym, bo wierzę, że dam sobie radę", impact: 300 }
+                ],
+                anecdote: "W wieku 60 lat oszczędności są bardzo ważne. To czas, by zacząć planować, jak przeżyć emeryturę, mając stabilne finansowanie."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let totalImpact = 0;
+
+        function calculatePension(impact) {
+            const minPension = 1780.96;
+            const avgPension = 3516.95;
+
+            let pension = (impact / 2500) * avgPension;
+            if (pension < minPension) pension = minPension;
+            if (pension > avgPension) pension = avgPension;
+
+            return pension.toFixed(2);
+        }
+
+        function displayAnecdote(anecdoteText) {
+            document.getElementById('anecdote-text').textContent = anecdoteText;
+            document.getElementById('anecdote-container').style.display = 'block';
+        }
+
+        function displayQuestion() {
+    const question = questions[currentQuestion];
+    document.getElementById('question-container').textContent = question.question;
+    const answersContainer = document.getElementById('answers-container');
+    answersContainer.innerHTML = '';
+
+    question.answers.forEach(answer => {
+        const answerButton = document.createElement('div');
+        answerButton.classList.add('answer');
+        answerButton.textContent = answer.text;
+        
+        // Zdarzenie kliknięcia
+        answerButton.onclick = () => {
+            // Dodanie klasy 'selected-answer' do klikniętej odpowiedzi
+            answerButton.classList.add('selected-answer');
+
+            // Usunięcie klasy z pozostałych odpowiedzi
+            const allAnswers = document.querySelectorAll('.answer');
+            allAnswers.forEach(item => {
+                if (item !== answerButton) {
+                    item.classList.remove('selected-answer');
+                }
+            });
+
+            // Zwiększenie całkowitego wpływu
+            totalImpact += answer.impact;
+
+            // Wyświetlenie anegdoty
+            displayAnecdote(question.anecdote);
+        };
+
+        answersContainer.appendChild(answerButton);
+    });
+    document.getElementById('quiz-content').style.display = 'block';
+    document.getElementById('start-container').style.display = 'none';
+}
+
+        document.getElementById('start-button').addEventListener('click', displayQuestion);
+        document.getElementById('next-question-button').addEventListener('click', () => {
+            document.getElementById('anecdote-container').style.display = 'none';
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showResult();
+            }
+        });
+
+        document.getElementById('restart-button').addEventListener('click', () => location.reload());
+
+        function showResult() {
+    document.getElementById('quiz-content').style.display = 'none';
+    document.getElementById('anecdote-container').style.display = 'none';
+    document.getElementById('result-container').style.display = 'block';
+
+    let estimatedPension = calculatePension(totalImpact);
+
+    document.getElementById('emerytura-amount').textContent = estimatedPension + " PLN";
+
+    const minPension = 1780.96;
+    if (parseFloat(estimatedPension) < minPension) {
+        document.getElementById('result-message').textContent = "Niestety, Twoja emerytura nie wystarczy na życie. Przegrałeś!";
+    } else {
+        document.getElementById('result-message').textContent = "Gratulacje! Twoja emerytura wystarczy na życie. Wygrałeś!";
+    }
+
+    // Dodanie dodatkowego tekstu
+    document.getElementById('additional-message').textContent = "Niskie emerytury to realny problem, który wymaga uwagi już teraz. Warto inwestować w swoją przyszłość, by zapewnić sobie godne życie w przyszłości. Chcesz sprawdzić jak może wyglądać twoja emerytura, jeśli zaczniesz oszczędzać? Albo już odkładasz i chcesz sprawdzić czy to ma sens? Oto nasz kalkulator emerytalny! Śmiało, sprawdzaj!";
+}
+
+
+
+// Funkcja do obliczenia procentu składanego
+function calculateCompoundInterest(P, r, t) {
+            const n = 12; // Kapitalizacja miesięczna
+            const rate = r / 100 / n; // miesięczna stopa procentowa
+            const time = t * n; // liczba miesięcy
+
+            let futureValue = P * Math.pow(1 + rate, time);
+
+            return futureValue.toFixed(2);
+        }
+
+        // Oblicz oszczędności na podstawie wprowadzonych danych
+        document.getElementById('calculate-btn').addEventListener('click', () => {
+            const monthlySavings = parseFloat(document.getElementById('monthly-savings').value);
+            const interestRate = parseFloat(document.getElementById('interest-rate').value);
+            const years = parseInt(document.getElementById('years').value);
+
+            if (isNaN(monthlySavings) || isNaN(interestRate) || isNaN(years) || monthlySavings <= 0 || interestRate <= 0 || years <= 0) {
+                alert('Proszę wprowadzić poprawne dane!');
+                return;
+            }
+
+            const result = calculateCompoundInterest(monthlySavings, interestRate, years);
+
+            document.getElementById('calculation-result').textContent = `Za ${years} lat, oszczędności wyniosą: ${result} PLN.`;
+        });
+
+        // Wyświetlenie kalkulatora po naciśnięciu przycisku "KALKULATOR"
+        document.getElementById('calculator-button').addEventListener('click', () => {
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('calculator-container').style.display = 'block';
+        });
+
+        document.getElementById('restart-button').addEventListener('click', () => {
+    // Resetowanie zmiennych quizu
+    currentQuestion = 0;
+    totalImpact = 0;
+
+    // Ukrycie sekcji wyników i pokazanie sekcji startowej
+    document.getElementById('result-container').style.display = 'none';
+    document.getElementById('start-container').style.display = 'block';
+
+    // Ukrycie pozostałych sekcji
+    document.getElementById('quiz-content').style.display = 'none';
+    document.getElementById('anecdote-container').style.display = 'none';
+});
+        
+        // Ukrywanie kalkulatora i powrót do wyników
+        document.getElementById('restart-button').addEventListener('click', () => {
+            document.getElementById('calculator-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+        });
+
+
+       
+
+// Obsługa przycisku 'Powrót'
+document.getElementById('back-button').addEventListener('click', () => {
+    document.getElementById('calculator-container').style.display = 'none';
+    document.getElementById('result-container').style.display = 'block'; // Powrót do wyników
+});
+
+    </script>
+
+</body>
+</html>
