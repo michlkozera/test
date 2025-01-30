@@ -17,6 +17,8 @@
             align-items: center;
         }
 
+        
+
         .container {
             width: 90%;
             max-width: 900px;
@@ -107,6 +109,9 @@
             color: #333;
             margin-top: 30px;
         }
+
+         
+
 
         /* Dodałem odstęp między przyciskami w sekcji wyników */
 .result .btn {
@@ -255,6 +260,57 @@
     cursor: pointer;
     transition: transform 0.2s ease, background-color 0.3s;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+            h1 {
+                font-size: 1rem;
+            }
+
+            .question, .anecdote, .intro-text {
+                font-size: 0.8rem;
+            }
+
+            .answer, .btn button {
+                font-size: 0.8rem;
+            }
+
+            .container {
+                padding: 12px;
+            }
+
+            .result .btn {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .answers {
+                width: 100%;
+            }
+
+            .result {
+            font-size: 1rem;
+        }
+
+        .additional-message {
+    font-size: 0.8rem;
+   
+}
+
+.calculator-container h2 {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .calculator-container label {
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+
+            
+        }
 
  
     </style>
