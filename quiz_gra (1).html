@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Moja Przyszła Emerytura</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #002b36; /* Nowe ciemne tło */
+            color: #ffffff; /* Kolor tekstu na biały */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background-color: #f4f4f9; /* Jasny, kremowy kolor tła */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #2ecc71; /* Zielony kolor dla tytułu */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .question {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .answer {
+            background-color: #27ae60; /* Zielony kolor przycisków */
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: transform 0.2s ease, background-color 0.3s;
+        }
+
+        .answer:hover {
+            background-color: #2ecc71; /* Jaśniejszy zielony po najechaniu */
+            transform: scale(1.05);
+        }
+
+        .answer:active {
+            animation: pulse 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn button {
+            background-color: #2ecc71; /* Zielony kolor dla przycisków */
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s;
+        }
+
+        .btn button:hover {
+            background-color: #27ae60; /* Jaśniejszy zielony przy najechaniu */
+            transform: scale(1.1);
+        }
+
+        .result {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Quiz - Moja Przyszła Emerytura</h1>
+        <div id="start-container" class="btn">
+            <button id="start-button">Rozpocznij grę</button>
+        </div>
+        <div id="quiz-content" style="display: none;">
+            <div id="question-container" class="question"></div>
+            <div id="answers-container" class="answers"></div>
+        </div>
+        <div id="result-container" class="result" style="display: none;">
+            <p>Twoja przyszła miesięczna emerytura to: <span id="emerytura-amount"></span> PLN</p>
+            <p id="result-message"></p>
+            <div class="btn">
+                <button id="restart-button">Zagraj ponownie</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Masz 18 lat. Twoja przygoda dopiero się zaczyna! Właśnie skończyłeś szkołę średnią i zastanawiasz się, co zrobić ze swoim życiem. Masz kilka opcji na stole. Co wybierasz?",
+                answers: [
+                    { text: "Podjąć pracę od razu i zacząć zarabiać", impact: 500 },
+                    { text: "Zdecydować się na prestiżowe studia, by zdobyć wykształcenie", impact: 300 },
+                    { text: "Połączyć studia z pracą dorywczą", impact: 400 },
+                    { text: "Podróżować po świecie, pracując dorywczo", impact: 200 },
+                    { text: "Założyć własny biznes i zacząć działać od razu", impact: 600 }
+                ]
+            },
+            {
+                question: "Masz 30 lat. Przez ostatnią dekadę stawiałeś na rozwój kariery. Teraz jesteś w punkcie, w którym chcesz poczuć stabilność. Jaką decyzję podejmujesz?",
+                answers: [
+                    { text: "Pracuję na pełen etat, mam pewną posadę", impact: 700 },
+                    { text: "Jestem freelancerem, ale na stałe współpracuję z kilkoma klientami", impact: 500 },
+                    { text: "Zdecydowałem się na pracę dorywczą", impact: 300 },
+                    { text: "Czuję się niepewnie i nie mam stałej pracy", impact: 100 }
+                ]
+            },
+            {
+                question: "Masz 40 lat. Przeżyłeś już kilka kryzysów zdrowotnych. Zdałeś sobie sprawę, jak ważne jest dbanie o swoje ciało. Jak teraz wygląda Twój styl życia?",
+                answers: [
+                    { text: "Codziennie ćwiczę i jem zdrowo", impact: 500 },
+                    { text: "Ćwiczę od czasu do czasu, ale zwracam uwagę na dietę", impact: 300 },
+                    { text: "Mało się ruszam, ale staram się jeść zdrowo", impact: 200 },
+                    { text: "Nie dbam o aktywność fizyczną, mam złe nawyki żywieniowe", impact: 100 }
+                ]
+            },
+            {
+                question: "Masz 50 lat. Wiesz, że życie po 60-tce nadchodzi szybko. Zastanawiasz się, czy jesteś gotowy na emeryturę. Co robisz?",
+                answers: [
+                    { text: "Regularnie oszczędzam i inwestuję, mam plan na przyszłość", impact: 800 },
+                    { text: "Oszczędzam, ale rzadko, brakuje systematyczności", impact: 500 },
+                    { text: "Mam pewne oszczędności, ale to niewielka kwota", impact: 300 },
+                    { text: "Nie mam oszczędności, ale liczę, że jakoś to będzie", impact: 100 }
+                ]
+            },
+            {
+                question: "Masz 60 lat. Nadszedł czas, aby przejść na emeryturę, ale zastanawiasz się, co dalej. Co postanawiasz?",
+                answers: [
+                    { text: "Przechodzę na pół etatu, ale mam oszczędności, które pozwalają mi żyć spokojnie", impact: 600 },
+                    { text: "Zdecydowałem się przejść na emeryturę, ale mam stabilne oszczędności", impact: 400 },
+                    { text: "Emerytura nie wystarcza, ale mam niewielkie oszczędności", impact: 200 },
+                    { text: "Nie mam oszczędności, będę musiał pracować dłużej", impact: 300 }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let totalImpact = 0;
+
+        // Funkcja obliczająca wysokość emerytury
+        function calculatePension(impact) {
+            const minPension = 1780.96; // minimalna emerytura w Polsce (brutto)
+            const avgPension = 3516.95; // średnia emerytura w Polsce (brutto)
+
+            let pension = (impact / 2500) * avgPension; // Szacujemy wysokość emerytury
+
+            if (pension < minPension) pension = minPension;
+            if (pension > avgPension) pension = avgPension;
+
+            return pension.toFixed(2);
+        }
+
+        // Funkcja wyświetlająca pytania
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question-container').textContent = question.question;
+            const answersContainer = document.getElementById('answers-container');
+            answersContainer.innerHTML = '';
+
+            question.answers.forEach(answer => {
+                const answerButton = document.createElement('div');
+                answerButton.classList.add('answer');
+                answerButton.textContent = answer.text;
+                answerButton.onclick = () => {
+                    totalImpact += answer.impact;
+                    currentQuestion++;
+                    if (currentQuestion < questions.length) {
+                        displayQuestion();
+                    } else {
+                        showResult();
+                    }
+                };
+                answersContainer.appendChild(answerButton);
+            });
+            document.getElementById('quiz-content').style.display = 'block';
+            document.getElementById('start-container').style.display = 'none';
+        }
+
+        // Funkcja wyświetlająca wynik gry
+        function showResult() {
+            document.getElementById('quiz-content').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+            
+            let estimatedPension = calculatePension(totalImpact);
+
+            document.getElementById('emerytura-amount').textContent = estimatedPension + " PLN";
+
+            const minPension = 1780.96; // minimalna emerytura w Polsce
+            if (parseFloat(estimatedPension) < minPension) {
+                document.getElementById('result-message').textContent = "Niestety, Twoja emerytura nie wystarczy na życie. Przegrałeś!";
+            } else {
+                document.getElementById('result-message').textContent = "Gratulacje! Twoja emerytura wystarczy na życie. Wygrałeś!";
+            }
+        }
+
+        // Inicjowanie gry
+        document.getElementById('start-button').addEventListener('click', displayQuestion);
+        document.getElementById('restart-button').addEventListener('click', () => location.reload());
+    </script>
+
+</body>
+</html>
