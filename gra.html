@@ -30,14 +30,14 @@
         }
 
         h1 {
-            font-size: 2.8rem;
+            font-size: 2rem;
             color: #2ecc71; /* Zielony kolor dla tytułu */
             text-align: center;
             margin-bottom: 30px;
         }
 
         .question, .anecdote {
-            font-size: 1.6rem;
+            font-size: 1.1rem;
             font-weight: bold;
             margin-bottom: 20px;
             text-align: center;
@@ -56,7 +56,7 @@
             padding: 15px;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
             text-align: center;
             transition: transform 0.2s ease, background-color 0.3s;
         }
@@ -86,7 +86,7 @@
             background-color: #2ecc71; /* Zielony kolor dla przycisków */
             color: white;
             padding: 12px 20px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -104,7 +104,7 @@
 
         .result {
             text-align: center;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #333;
             margin-top: 30px;
@@ -130,7 +130,7 @@
 }
 
         .intro-text {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: bold;
             margin-bottom: 20px;
             text-align: center;
@@ -151,7 +151,7 @@
             background-color: #2ecc71; /* Styl taki jak dla innych przycisków */
             color: white;
             padding: 12px 20px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -197,12 +197,12 @@
         }
 
         .calculator-container h2 {
-            font-size: 2rem;
+            font-size: 1.7rem;
             margin-bottom: 20px;
         }
 
         .calculator-container label {
-            font-size: 1.2rem;
+            font-size: 1rem;
             display: block;
             margin-bottom: 10px;
         }
@@ -211,7 +211,7 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             border-radius: 8px;
             border: 1px solid #ccc;
             background-color: #f4f4f9;
@@ -221,7 +221,7 @@
             background-color: #27ae60;
             color: white;
             padding: 12px 20px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -239,7 +239,7 @@
 
         .calculator-container p {
             margin-top: 20px;
-            font-size: 1.4rem;
+            font-size: 1rem;
             font-weight: bold;
         }
         
@@ -263,8 +263,17 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+
+    .calculator-container .btn button {
+    font-size: 0.8rem;
+    
+}
+
+    #start-button{
+        font-size: 0.8rem;
+    }
             h1 {
-                font-size: 1rem;
+                font-size: 1.2rem;
             }
 
             .question, .anecdote, .intro-text {
@@ -289,11 +298,13 @@
             }
 
             .result {
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .additional-message {
     font-size: 0.8rem;
+
+   
    
 }
 
@@ -307,6 +318,7 @@
             display: block;
             margin-bottom: 10px;
         }
+        
 
 
             
@@ -342,19 +354,23 @@
         </div>
 
         <div id="calculator-container" class="calculator-container" style="display: none;">
-            <h2>Kalkulator procentu składanego</h2>
+            <h2>Kalkulator oszczędności</h2>
             <p>Oblicz, ile możesz zaoszczędzić przez roczną kapitalizację miesięcznych oszczędności.</p>
-            <label for="monthly-savings">Miesięczna oszczędność (PLN):</label>
-            <input type="number" id="monthly-savings" placeholder="Wpisz miesięczną kwotę" required>
-            <br>
-            <label for="interest-rate">Roczna stopa procentowa (%):</label>
-            <input type="number" id="interest-rate" placeholder="Wpisz roczną stopę procentową" required>
-            <br>
-            <label for="years">Liczba lat:</label>
-            <input type="number" id="years" placeholder="Wpisz liczbę lat" required>
-            <br>
-            <button id="calculate-btn">Oblicz oszczędności</button>
-            <p id="calculation-result" style="margin-top: 20px; font-weight: bold;"></p>
+            <label for="initial-savings">Kwota początkowa (PLN):</label>
+<input type="number" id="initial-savings" value="500">
+
+<label for="monthly-savings">Miesięczna wpłata (PLN):</label>
+<input type="number" id="monthly-savings" value="100">
+
+<label for="interest-rate">Roczna stopa procentowa (%):</label>
+<input type="number" id="interest-rate" value="5">
+
+<label for="years">Liczba lat oszczędzania:</label>
+<input type="number" id="years" value="20">
+
+<button id="calculate-btn">Oblicz oszczędności</button>
+
+<p id="calculation-result"></p>
         
             <!-- Nowe przyciski -->
             <div class="btn">
@@ -369,7 +385,7 @@
             <p id="additional-message" class="additional-message"></p> <!-- Nowy tekst -->
             <p id="additional-message" class="additional-message">
             Jeśli chcesz dowiedzieć się więcej na poruszany przez nas temat starzejącego się społeczeństwa, kliknij w link i obejrzyj filmik grupy "Jagódki":
-                <a href="TU_WSTAW_LINK" target="_blank">Obejrzyj filmik</a>.
+                <a href="https://l.messenger.com/l.php?u=https%3A%2F%2Fapp.animaker.com%2Fanimo%2Fp9qsN7VGjjeRmruq%2F&h=AT1fgSqQTqqZ4BsYj5lblE8SMXRXLzX9c4nkURq5yNC2CAAI9z_4pRtyXUceD00D_YcsyNygAMI1U3DMzvfKAwowyFJN2E50toHigPuh9mCMSAldmqbRXgedlabktDaHzdAR8IoEUW1XSCuy6-uFjQ" target="_blank">Obejrzyj filmik</a>.
             </p>
             <div class="btn">
                 <button id="restart-button">Zagraj ponownie</button>
@@ -524,32 +540,38 @@
 
 
 
-// Funkcja do obliczenia procentu składanego
-function calculateCompoundInterest(P, r, t) {
-            const n = 12; // Kapitalizacja miesięczna
-            const rate = r / 100 / n; // miesięczna stopa procentowa
-            const time = t * n; // liczba miesięcy
+// Funkcja do obliczenia oszczędności z procentem składanym przy rocznej kapitalizacji
+function calculateCompoundInterest(P, r, t, M) {
+    const n = 1; // Kapitalizacja roczna
+    const rate = r / 100; // Roczna stopa procentowa w ułamku dziesiętnym
+    const time = t; // Czas oszczędzania w latach
 
-            let futureValue = P * Math.pow(1 + rate, time);
+    // Obliczenie wartości przyszłej oszczędności
+    let futureValue = P * Math.pow(1 + rate / n, n * time) + M * ((Math.pow(1 + rate / n, n * time) - 1) / (rate / n));
 
-            return futureValue.toFixed(2);
-        }
+    return futureValue.toFixed(2);
+}
 
-        // Oblicz oszczędności na podstawie wprowadzonych danych
-        document.getElementById('calculate-btn').addEventListener('click', () => {
-            const monthlySavings = parseFloat(document.getElementById('monthly-savings').value);
-            const interestRate = parseFloat(document.getElementById('interest-rate').value);
-            const years = parseInt(document.getElementById('years').value);
+// Oblicz oszczędności na podstawie wprowadzonych danych
+document.getElementById('calculate-btn').addEventListener('click', () => {
+    const initialSavings = parseFloat(document.getElementById('initial-savings').value); // Początkowa kwota
+    const monthlySavings = parseFloat(document.getElementById('monthly-savings').value); // Miesięczna wpłata
+    const interestRate = parseFloat(document.getElementById('interest-rate').value); // Roczna stopa procentowa
+    const years = parseInt(document.getElementById('years').value); // Liczba lat oszczędzania
 
-            if (isNaN(monthlySavings) || isNaN(interestRate) || isNaN(years) || monthlySavings <= 0 || interestRate <= 0 || years <= 0) {
-                alert('Proszę wprowadzić poprawne dane!');
-                return;
-            }
+    // Sprawdzanie poprawności danych wejściowych
+    if (isNaN(initialSavings) || isNaN(monthlySavings) || isNaN(interestRate) || isNaN(years) || initialSavings < 0 || monthlySavings <= 0 || interestRate <= 0 || years <= 0) {
+        alert('Proszę wprowadzić poprawne dane!');
+        return;
+    }
 
-            const result = calculateCompoundInterest(monthlySavings, interestRate, years);
+    // Obliczenie oszczędności
+    const result = calculateCompoundInterest(initialSavings, interestRate, years, monthlySavings);
 
-            document.getElementById('calculation-result').textContent = `Za ${years} lat, oszczędności wyniosą: ${result} PLN.`;
-        });
+    // Wyświetlanie wyniku
+    document.getElementById('calculation-result').textContent = `Za ${years} lat, oszczędności wyniosą: ${result} PLN.`;
+});
+
 
         // Wyświetlenie kalkulatora po naciśnięciu przycisku "KALKULATOR"
         document.getElementById('calculator-button').addEventListener('click', () => {
